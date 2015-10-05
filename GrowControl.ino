@@ -5,7 +5,7 @@ int menuPos = 0; // Value determines what is displayed and adjusted
 int menuPosLast = -1; // Value is compared to menuPos in order to prevent constant LCD clear and print
 
 int EC = 0; // EC value - variable will be used to set EC range 
-int PH = 0; // PH value - variable will be used to set PH range
+float PH = 0.0; // PH value - variable will be used to set PH range
  
 void setup() {
 lcd.begin(16, 2); // Initialize LCD
@@ -52,24 +52,24 @@ if (menuPos == 0) {           // If menuPos == 0
   lcd.print(EC);                    // Prints the current set value of EC
   menuPosLast = menuPos;              // Sets menuPosLast to menuPos to prevent constant lcd clear / print
   }  
-  if (Buttons == Up){
-    EC++ +1;
-    delay(170);
+  if (Buttons == Up){                 // Increase desired EC value and display its value
+    EC++ +1;                           
+    delay(170);                       
     lcd.clear();
     lcd.print("Set EC Value"); 
     lcd.setCursor(6,1);
-    lcd.print(EC);
+    lcd.print(EC);                    //
     }
-    if (Buttons == Down){
+    if (Buttons == Down){             // Decrease desired EC value and display its value
     EC-- -1;
     delay(170);
     lcd.clear();
     lcd.print("Set EC Value");
     lcd.setCursor(6,1);
-    lcd.print(EC);
+    lcd.print(EC);                    //
     }
 }
-if (menuPos == 1) {
+if (menuPos == 1) {                  
   if (menuPos != menuPosLast){
   lcd.clear();
   lcd.print("Set PH Value");
@@ -78,7 +78,10 @@ if (menuPos == 1) {
   menuPosLast = menuPos;
   }
   if (Buttons == Up){
-    PH++ +1;
+   if (PH >= 14){
+      PH = 1;
+    }
+    PH = PH + 0.1;
     delay(150); 
     lcd.clear();
     lcd.print("Set PH Value");
@@ -86,7 +89,10 @@ if (menuPos == 1) {
     lcd.print(PH);
     }
     if (Buttons == Down){
-    PH-- -1;
+      if (PH <=1){
+        PH = 14;
+      }
+    PH = PH - 0.1;
     delay(150);
     lcd.clear();
     lcd.print("Set PH Value");
